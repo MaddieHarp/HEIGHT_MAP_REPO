@@ -17,6 +17,11 @@ namespace HeightmapTerrainStarter
         Vector3 position;
 
         MouseState oldMouseState;
+        
+        /// <summary>
+        /// Gets or sets the heightmap this camera is interacting with
+        /// </summary>
+        public IHeightMap HeightMap { get; set; }
 
         Game game;
 
@@ -41,6 +46,11 @@ namespace HeightmapTerrainStarter
         {
             var keyboard = Keyboard.GetState();
             var newMouseState = Mouse.GetState();
+                // Adjust camera height to heightmap 
+            if(HeightMap != null)
+            {
+                position.Y = HeightMap.GetHeightAt(position.X, position.Z) + HeightOffset;
+            }
 
             // Get the direction the player is currently facing
             var facing = Vector3.Transform(Vector3.Forward, Matrix.CreateRotationY(horizontalAngle));
